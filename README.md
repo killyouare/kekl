@@ -4,7 +4,7 @@
 ```bash
 git clone https://github.com/killyouare/kekl.git
 cd kekl/app
-composer i
+composer i --ignore-platform-reqs
 cd ../
 ```
 
