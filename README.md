@@ -1,6 +1,7 @@
 # DEMO YII
 
 ## Установка
+
 ```bash
 git clone https://github.com/killyouare/kekl.git
 cd kekl/app
@@ -9,6 +10,7 @@ cd ../
 ```
 
 или
+
 ```bash
 git clone https://github.com/killyouare/kekl.git
 cd kekl
@@ -20,3 +22,20 @@ docker run --rm --interactive --tty --volume $PWD/app:/app --user $(id -u):$(id 
 ```bash
 docker-compose up -d --build
 ```
+
+## Приложение
+
+| Приложение | Порт |
+|------------|------|
+| yii        | 80   |
+| phpmyadmin | 8888 |
+| mysql      | 3306 |
+
+## База данных
+
+| Атрибут  | Значение |
+|----------|----------|
+| host     | db |
+| user     | root |
+| password | app |
+| database | app |
