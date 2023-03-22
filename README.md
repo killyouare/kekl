@@ -37,5 +37,5 @@ docker-compose up -d --build
 |----------|----------|
 | host     | db |
 | user     | root |
-| password | app |
-| database | app |
+| password | my_root_password |
+| database | my_database_name |
