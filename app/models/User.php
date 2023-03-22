@@ -2,41 +2,42 @@
 
 namespace app\models;
 
+use Yii;
 use yii\web\IdentityInterface;
 
 /**
  * This is the model class for table "users".
  *
  * @property int $id
- * @property string $fio
- * @property string $username
+ * @property string $name
+ * @property string $surname
+ * @property string|null $patronymic
+ * @property string $login
  * @property int $role
- * @property int $password
- * @property int $email
+ * @property string $email
+ * @property string $password
  */
 class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
     public $repeatPassword;
+    public $rule;
 
-    public $checkMark;
-
-    public static function findIdentity(
-        $id
-    ): User|IdentityInterface|null {
+    public static function findIdentity($id)
+    {
         return static::findOne($id);
     }
 
-    public static function findIdentityByAccessToken($token, $type = null): User|IdentityInterface|null
+    public static function findIdentityByAccessToken($token, $type = null)
     {
         return static::findOne(['access_token' => $token]);
     }
 
-    public static function findByUsername(string $username): ?User
+    public static function findByUsername($username)
     {
-        return static::findOne(['username' => $username]);
+        return self::findOne(['login' => $username]);
     }
 
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
@@ -46,7 +47,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return null;
     }
 
-    public function validateAuthKey($authKey): bool
+    public function validateAuthKey($authKey)
     {
         return $this->authKey === $authKey;
     }
@@ -54,7 +55,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     /**
      * {@inheritdoc}
      */
-    public static function tableName(): string
+    public static function tableName()
     {
         return 'users';
     }
@@ -65,23 +66,16 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['fio', 'username', 'password', 'email', 'repeatPassword', 'checkMark'], 'required'],
+            [['name', 'surname', 'login', 'role', 'email', 'password'], 'required'],
             [['role'], 'integer'],
-            [['fio', 'username', 'password', 'email', 'repeatPassword'], 'string', 'max' => 255],
-            [['username'], 'unique'],
-            [['email'], 'unique'],
-            [['email'], 'email'],
+            [['name', 'surname', 'patronymic', 'login', 'email', 'password'], 'string', 'max' => 255],
             [['repeatPassword'], 'compare', 'compareAttribute' => 'password'],
-            [['checkMark'], 'compare', 'compareValue' => 1],
-            ['fio', 'match', 'pattern' => '/^[А-Я]+[а-я]* [А-Я]+[а-я]* [А-Я]+[а-я]*$/m']
-
+            [['rule'], 'compare', 'compareValue' => 1],
+            [['email', 'login'], 'unique'],
+            [['email'], 'email'],
+            [['name', 'surname', 'patronymic'], 'match', 'pattern' => '/^[А-яёЁ ]*$/i'],
+            [['password'], 'string', 'length' => [6, 255]],
         ];
-    }
-
-    public function beforeSave($insert)
-    {
-        $this->password = md5($this->password);
-        return parent::beforeSave($insert);
     }
 
     /**
@@ -90,19 +84,30 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'fio' => 'Фио',
-            'username' => 'Имя пользователя',
-            'role' => 'Role',
+            'name' => 'Имя',
+            'surname' => 'Фамилия',
+            'patronymic' => 'Отчество',
+            'login' => 'Имя пользователя',
+            'email' => 'Email',
             'password' => 'Пароль',
             'repeatPassword' => 'Повторите пароль',
-            'checkMark' => 'Согласие об обработке персональных данных',
-            'email' => 'Email',
+            'rule' => 'Согласие с правилами регистрации',
         ];
     }
 
     public function validatePassword($password)
     {
-        return $this->password = md5($password);
+        return $this->password === md5($password);
+    }
+
+    public function beforeSave($insert)
+    {
+        $this->password = md5($this->password);
+        return parent::beforeSave($insert);
+    }
+
+    public function isAdmin()
+    {
+        return $this->role;
     }
 }

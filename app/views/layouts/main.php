@@ -43,34 +43,22 @@ $this->beginBody() ?>
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
         'items' => [
-            ['label' => 'Главная', 'url' => ['/site/index']],
-            ['label' => 'О нас', 'url' => ['/site/about']],
-            ['label' => 'Контакты', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest
-                ? '<li class="nav-item">'
-                . Html::beginForm(['/site/login'])
-                . Html::submitButton(
-                    'Авторизация',
-                    ['class' => 'nav-link btn btn-link']
-                )
-                . Html::endForm()
-                . '</li>'
-                . '<li class="nav-item">'
-                . Html::beginForm(['/user/create'])
-                . Html::submitButton(
-                    'Регистрация',
-                    ['class' => 'nav-link btn btn-link']
-                )
-                . Html::endForm()
-                . '</li>'
+                ? ['label' => 'Вход', 'url' => ['/site/login']]
                 : '<li class="nav-item">'
                 . Html::beginForm(['/site/logout'])
                 . Html::submitButton(
-                    'Выйти (' . Yii::$app->user->identity->username . ')',
+                    'Выйти (' . Yii::$app->user->identity->login . ')',
                     ['class' => 'nav-link btn btn-link logout']
                 )
                 . Html::endForm()
-                . '</li>'
+                . '</li>',
+            Yii::$app->user->isGuest
+                ? ['label' => 'Регистрация', 'url' => ['/user/create']]
+                : '',
+            !Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin()
+                ? ['label' => 'Админ панель', 'url' => ['/admin/']]
+                : ''
         ]
     ]);
     NavBar::end();
@@ -79,11 +67,6 @@ $this->beginBody() ?>
 
 <main id="main" class="flex-shrink-0" role="main">
     <div class="container">
-        <?php
-        if (!empty($this->params['breadcrumbs'])): ?>
-            <?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
-        <?php
-        endif ?>
         <?= Alert::widget() ?>
         <?= $content ?>
     </div>
@@ -93,7 +76,6 @@ $this->beginBody() ?>
     <div class="container">
         <div class="row text-muted">
             <div class="col-md-6 text-center text-md-start">&copy; My Company <?= date('Y') ?></div>
-            <div class="col-md-6 text-center text-md-end"><?= Yii::powered() ?></div>
         </div>
     </div>
 </footer>

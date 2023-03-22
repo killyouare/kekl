@@ -10,12 +10,12 @@ $config = [
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@npm' => '@vendor/npm-asset',
     ],
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => 'brIkKlQMJcY4Q3UOmVAzaeIag4xL8Y3H',
+            'cookieValidationKey' => 'йцуйцу',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',

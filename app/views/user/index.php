@@ -10,6 +10,7 @@ use yii\grid\GridView;
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Users';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
 
@@ -26,11 +27,13 @@ $this->title = 'Users';
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'fio',
-            'username',
-            'role',
-            'password',
+            'name',
+            'surname',
+            'patronymic',
+            'login',
+            //'role',
             //'email:email',
+            //'password',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, User $model, $key, $index, $column) {

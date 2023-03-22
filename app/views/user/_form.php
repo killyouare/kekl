@@ -1,7 +1,7 @@
 <?php
 
-use yii\bootstrap5\ActiveForm;
 use yii\helpers\Html;
+use yii\bootstrap5\ActiveForm;
 use yii\widgets\Pjax;
 
 /** @var yii\web\View $this */
@@ -10,31 +10,34 @@ use yii\widgets\Pjax;
 ?>
 
 <div class="user-form">
+
     <?php
-    $form = Pjax::begin(); ?>
+    Pjax::begin(); ?>
     <?php
     $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'fio')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'surname')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'email')->textInput() ?>
+    <?= $form->field($model, 'patronymic')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'login')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'password')->passwordInput() ?>
-    <?= $form->field($model, 'repeatPassword')->passwordInput() ?>
+    <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'checkMark')->checkbox() ?>
+    <?= $form->field($model, 'password')->passwordInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'repeatPassword')->passwordInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'rule')->checkbox() ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Зарегистрироваться', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php
     ActiveForm::end(); ?>
-
     <?php
     Pjax::end(); ?>
 

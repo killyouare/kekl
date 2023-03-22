@@ -1,36 +1,27 @@
 version: '3'
 
-networks:
-  default:
-    driver: bridge
-
 services:
   php:
-    image: yiisoftware/yii2-php:8.1-apache
+    image: yiisoftware/yii2-php:7.4-apache
     volumes:
-      - ~/.composer-docker/cache:/root/.composer/cache:delegated
       - ./app/:/app:delegated
     ports:
       - '80:80'
-    networks:
-      - default
+    user: 1000:1000
     depends_on:
       - db
-    user: 1000:1000
   db:
     image: mysql:5.7
     restart: always
     environment:
-      - MYSQL_DATABASE=app
-      - MYSQL_USER=user
-      - MYSQL_PASSWORD=user_password
-      - MYSQL_ROOT_PASSWORD=app
+      - MYSQL_DATABASE=my_database_name
+      - MYSQL_USER=my_user_name
+      - MYSQL_PASSWORD=my_user_password
+      - MYSQL_ROOT_PASSWORD=my_root_password
     ports:
       - '3306:3306'
     expose:
       - '3306'
-    networks:
-      - default
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
