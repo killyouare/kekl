@@ -66,7 +66,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['name', 'surname', 'login', 'role', 'email', 'password'], 'required'],
+            [['name', 'surname', 'login', 'email', 'password'], 'required'],
             [['role'], 'integer'],
             [['name', 'surname', 'patronymic', 'login', 'email', 'password'], 'string', 'max' => 255],
             [['repeatPassword'], 'compare', 'compareAttribute' => 'password'],

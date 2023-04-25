@@ -58,7 +58,7 @@ $this->beginBody() ?>
                 : '',
             !Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin()
                 ? ['label' => 'Админ панель', 'url' => ['/admin/']]
-                : ''
+                : ""
         ]
     ]);
     NavBar::end();
