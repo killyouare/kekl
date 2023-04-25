@@ -11,8 +11,8 @@ use Yii;
  * @property int $product_id
  * @property int $user_id
  *
- * @property Products $product
- * @property Users $user
+ * @property Product $product
+ * @property User $user
  */
 class Cart extends \yii\db\ActiveRecord
 {
@@ -32,8 +32,8 @@ class Cart extends \yii\db\ActiveRecord
         return [
             [['product_id', 'user_id'], 'required'],
             [['product_id', 'user_id'], 'integer'],
-            [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Products::class, 'targetAttribute' => ['product_id' => 'id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::class, 'targetAttribute' => ['user_id' => 'id']],
+            [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::class, 'targetAttribute' => ['product_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -56,7 +56,7 @@ class Cart extends \yii\db\ActiveRecord
      */
     public function getProduct()
     {
-        return $this->hasOne(Products::class, ['id' => 'product_id']);
+        return $this->hasOne(Product::class, ['id' => 'product_id']);
     }
 
     /**
@@ -66,6 +66,6 @@ class Cart extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(Users::class, ['id' => 'user_id']);
+        return $this->hasOne(User::class, ['id' => 'user_id']);
     }
 }
